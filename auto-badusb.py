@@ -1,7 +1,11 @@
 import os
 import time
 
-os.remove("data.txt")
+if os.path.exists("data.txt"):
+    os.remove("data.txt")
+    print("The file has been deleted successfully")
+else:
+    print("The file does not exist!")
 fichier = open("data.txt", "a")
 fichier.write(
     '#include <Keyboard.h> \nconst int BUTTON_PIN = 3; \nint lastState = HIGH; \nint currentState; \nString fr(String text){\n  int i = 0;\n  String _en = " =qwertyuiopasdfghjkl;zxcvbnQWERTYUIOPASDFGHJKL:ZXCVBNm,./M<>?1234567890!@#$%^&*()",\n         _fr = " =azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN,;:!?./ & \\"\'(- _  1234567890",\n         str = "";\n  while (text[i] != 0){\n    str = str + (String)_en[_fr.indexOf((String)text[i++])];\n  }\n  return str;\n}\nvoid setup() { \n   Serial.begin(9600); \n   Keyboard.begin();\n   delay(1000);\n   pinMode(BUTTON_PIN, INPUT_PULLUP); \n} \nvoid loop() { \n  currentState = digitalRead(BUTTON_PIN); \n  if(lastState == LOW && currentState == HIGH){ \n   Serial.println("1"); \n   Keyboard.press(KEY_LEFT_GUI); \n   Keyboard.press(\'d\'); \n   delay(10); \n   Keyboard.releaseAll(); \n')
@@ -17,7 +21,7 @@ def text():
             break
         if text == "enter":
             fichier.write(
-                f'   Keyboard.press(KEY_RETURN); \n   delay(100); \n')
+                f'   Keyboard.press(KEY_RETURN); \n   delay(100);\n   Keyboard.releaseAll(); \n')
         else:
             fichier.write(
                 f'   Keyboard.print(fr("{text}")); \n   delay(500); \n')
