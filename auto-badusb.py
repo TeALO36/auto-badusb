@@ -51,7 +51,7 @@ def download():
                 f'   Keyboard.print(fr("Invoke-WebRequest -Uri "{URL}" -OutFile "{path}" ")); \n')
 
 
-def open_program():
+def open_program():  # Renommé pour éviter le conflit
     app = input("Que voulez vous executer ? : ")
     if app == "quit":
         pass
@@ -65,9 +65,9 @@ def file():
         f'   Keyboard.press(KEY_LEFT_GUI); \n   Keyboard.press(\'r\'); \n   delay(10); \n   Keyboard.releaseAll(); \n   delay(200); \n   Keyboard.print(fr("notepad")); \n   Keyboard.press(KEY_RETURN); \n   delay(100); \n   Keyboard.releaseAll();\n   delay(200);\n')
 
     infile = input(
-        "Quel est le nom du fichier a ouvrir ? (extension doit être inclu, le fichier gardera le nom et l'extension par defaut): ")
+        "Quel est le nom du fichier a ouvrir ? ( extension doit être inclu, le fichier gardera le nom et l'extension par defaut): ")
     path = input("Où voulez vous enregistrer le fichier ? : ")
-    with open(infile) as f:  # Utilisation correcte de la fonction open() intégrée
+    with open(infile, 'r') as f:  # Utilisation correcte de la fonction open() intégrée
         text = f.read()
     text = text.replace('\n', """   Keyboard.press(KEY_RETURN); """)
     print("Le fichier sera écrit de cette façon : ")
@@ -89,12 +89,13 @@ def file():
     fichier.write(
         f'   Keyboard.press(KEY_RETURN);\n   Keyboard.releaseAll(); \n')
 
+
 # Remplacez l'appel de open() par open_program()
 while True:
     command = input("Que voulez vous faire ? : ")
 
     if command == "open":
-        open_program()
+        open_program()  # Appel de la fonction renommée
 
     if command == "text":
         text()
@@ -110,6 +111,7 @@ while True:
 
     if command == "quit":
         break
+
 
 
 
