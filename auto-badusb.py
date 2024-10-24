@@ -51,15 +51,24 @@ def download():
                 f'   Keyboard.print(fr("Invoke-WebRequest -Uri "{URL}" -OutFile "{path}" ")); \n')
 
 
+def open_program():
+    app = input("Que voulez vous executer ? : ")
+    if app == "quit":
+        pass
+    else:
+        fichier.write(
+            f'   Keyboard.press(KEY_LEFT_GUI); \n   Keyboard.press(\'r\'); \n   delay(10); \n   Keyboard.releaseAll(); \n   delay(200); \n   Keyboard.print(fr("{app}")); \n   Keyboard.press(KEY_RETURN); \n   delay(100); \n   Keyboard.releaseAll();\n ')
+
+
 def file():
     fichier.write(
         f'   Keyboard.press(KEY_LEFT_GUI); \n   Keyboard.press(\'r\'); \n   delay(10); \n   Keyboard.releaseAll(); \n   delay(200); \n   Keyboard.print(fr("notepad")); \n   Keyboard.press(KEY_RETURN); \n   delay(100); \n   Keyboard.releaseAll();\n   delay(200);\n')
 
     infile = input(
-        "Quel est le nom du fichier a ouvrir ? ( extension doit être inclu, le fichier gardera le nom et l'extension par defaut ): ")
+        "Quel est le nom du fichier a ouvrir ? (extension doit être inclu, le fichier gardera le nom et l'extension par defaut): ")
     path = input("Où voulez vous enregistrer le fichier ? : ")
-    f = open(infile)
-    text = f.read()
+    with open(infile) as f:  # Utilisation correcte de la fonction open() intégrée
+        text = f.read()
     text = text.replace('\n', """   Keyboard.press(KEY_RETURN); """)
     print("Le fichier sera écrit de cette façon : ")
     print(text)
@@ -80,12 +89,12 @@ def file():
     fichier.write(
         f'   Keyboard.press(KEY_RETURN);\n   Keyboard.releaseAll(); \n')
 
-
+# Remplacez l'appel de open() par open_program()
 while True:
     command = input("Que voulez vous faire ? : ")
 
     if command == "open":
-        open()
+        open_program()
 
     if command == "text":
         text()
@@ -101,6 +110,7 @@ while True:
 
     if command == "quit":
         break
+
 
 
 fichier.write(
